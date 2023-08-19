@@ -13,13 +13,10 @@ function Header() {
                 <div class="collapse navbar-collapse" id="navbarSupportedContent">
                     <ul class="navbar-nav me-auto mb-2 mb-lg-0">
                         <li class="nav-item">
-                            <a class="nav-link active" aria-current="page" href="/cart"><i className="fas fa-shopping-cart"></i> Cart</a>
+                            <a class="nav-link" aria-current="page" href="/cart"><i className="fas fa-shopping-cart"></i> Cart</a>
                         </li>
                         <li class="nav-item">
                             <a class="nav-link" href="/login"><i className="fas fa-user"></i> Login</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link disabled" aria-disabled="true">Disabled</a>
                         </li>
                     </ul>
                 </div>
