@@ -5,7 +5,9 @@ function Footer() {
     <footer>
       <Container>
         <Row>
-          <Col className="text-center py-3">Copyright &copy; Electroverse Inc.</Col>
+            <Col className="text-center py-3">
+                Copyright &copy; Electroverse Inc. | Developed by <a href="https://www.shahmostakim.com" target='_blank'>Shah Mostakim</a>
+            </Col>
         </Row>
       </Container>
     </footer>
