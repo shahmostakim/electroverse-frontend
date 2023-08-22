@@ -1,27 +1,29 @@
 import React from 'react'
 import { Navbar, Nav, Container, Row } from 'react-bootstrap'
+import { LinkContainer } from 'react-router-bootstrap'
 
 function Header() {
   return (
     <header>
-        <nav class="navbar navbar-expand-lg bg-body-tertiary" data-bs-theme="dark" collapseOnSelect>
+        <Navbar bg="dark" variant="dark" expand="lg" collapseOnSelect>
             <Container> 
-                <a class="navbar-brand" href="/">Pro Shop</a>
-                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-                    <span class="navbar-toggler-icon"></span>
-                </button>
-                <div class="collapse navbar-collapse" id="navbarSupportedContent">
-                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-                        <li class="nav-item">
-                            <a class="nav-link" aria-current="page" href="/cart"><i className="fas fa-shopping-cart"></i> Cart</a>
-                        </li>
-                        <li class="nav-item">
-                            <a class="nav-link" href="/login"><i className="fas fa-user"></i> Login</a>
-                        </li>
-                    </ul>
-                </div>
+                <LinkContainer to="/">
+                    <Navbar.Brand>Pro Shop</Navbar.Brand>
+                </LinkContainer>
+                <Navbar.Toggle aria-controls="basic-navbar-nav" />
+                <Navbar.Collapse id="basic-navbar-nav">
+                    <Nav className="mr-auto">
+                        <LinkContainer to="/cart">
+                            <Nav.Link><i className="fas fa-shopping-cart"></i> Cart</Nav.Link>
+                        </LinkContainer> 
+                        <LinkContainer to="/login">
+                            <Nav.Link><i className="fas fa-user"></i> Login</Nav.Link>
+                        </LinkContainer>
+                    </Nav>
+                </Navbar.Collapse>
+                
             </Container>
-        </nav>
+        </Navbar>
     </header>
   )
 }
