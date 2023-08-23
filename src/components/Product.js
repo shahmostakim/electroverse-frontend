@@ -20,7 +20,7 @@ function Product({product}) {
                     <Rating value={product.rating} text={`${product.numReviews} reviews`} color={'#f8e825'} />
                 </div>
             </Card.Text>
-            <Card.Text as="h4" text-color="green" class="text-success">
+            <Card.Text as="h4" text-color="green" className="text-success">
                 ${product.price} <span className={product.price<100?'text-danger':'invisible'}>Deal</span> 
             </Card.Text>
         </Card.Body>
