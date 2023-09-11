@@ -21,7 +21,7 @@ function Product({product}) {
                 </div>
             </Card.Text>
             <Card.Text as="h4" text-color="green" className="text-success">
-                ${product.price} <span className={product.price<100?'text-danger':'invisible'}>Deal</span> 
+                ${product.price} <span className={product.price<50?'text-danger':'invisible'}>Deal</span> 
             </Card.Text> 
         </Card.Body>
     </Card>
