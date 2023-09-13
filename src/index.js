@@ -4,12 +4,17 @@ import './index.css';
 import './bootstrap.min.css'; 
 import App from './App';
 import reportWebVitals from './reportWebVitals';
-import { BrowserRouter as Router} from 'react-router-dom'; 
+import { BrowserRouter as Router} from 'react-router-dom';
+// imports for redux 
+import { Provider } from 'react-redux' 
+import store from './store' 
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <Router>
-    <App />
+    <Provider store={store}>
+      <App />
+    </Provider>
   </Router>
 );
 
