@@ -1,6 +1,6 @@
-# Project Electroverse
+# Project: Electroverse Inc
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+This is one of the portfolio projects listed in my [website](https://shahmostakim.com).
 
 
 ## Project Description
@@ -15,9 +15,11 @@ This application equips with standard features including:
  - product inventory 
  - customer profile 
  - admin dashboard 
- - product search and pagination 
+ - product search and pagination and more
  
- The application is under development and full version will be deployed online for live demonstration upon completion of all features.
+ The backend API of this project is being developed with Django REST framework implementing JWT based authentication. 
+ 
+ The application is under development and full version will be deployed online for live demonstration upon completion of all features. 
 
 
 
