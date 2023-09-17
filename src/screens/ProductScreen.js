@@ -9,19 +9,36 @@ import products from '../products'
 import { useDispatch, useSelector } from 'react-redux'
 import { listProductDetails } from '../actions/productActions' 
 
-function ProductScreen({match}) {
-
-  const [qty, setQty] = useState(1)
+function ProductScreen({match, history}) {
 
   const dispatch = useDispatch()
   const productDetails = useSelector(state=>state.productDetails)
   const {loading, error, product} = productDetails 
+
+  // for Qty dropdown
+  const [qty, setQty] = useState(1)
+  // generates an array of dropdown options
+  const qtyDropdownOptions = [] 
+  for(let i=1; i<=product.countInStock; i++){
+    qtyDropdownOptions.push(
+      <option key={i} value={i}>
+        {i} 
+      </option>
+    )
+  }
+
 
   useEffect(()=>{
     dispatch(listProductDetails(match.params.id)) 
   },[dispatch, match]);  
   // },[]); empty dependency list should work as well  
 
+  
+  //add to card button 
+  const addToCartHandler = () => {
+    //console.log('Add to cart: '+match.params.id)
+    history.push(`/cart/${match.params.id}?qty=${qty}`) 
+  }
 
   const checkIfAvailable = () =>{
     let result = false 
@@ -78,8 +95,43 @@ function ProductScreen({match}) {
                         <Col>{product.countInStock>0?`${product.countInStock} in stock`:'Out of Stock'}</Col>
                       </Row>
                     </ListGroup.Item>
+                    
+                    {/* conditional rendering, can be refactored with if-else or ternary operator */}
+                    {/* Render the product Qty, only if the value is greater than zero */}
+                    {product.countInStock > 0 && (
+                      <ListGroup.Item>
+                        <Row>
+                          <Col>Qty</Col>
+                          <Col xs='auto' className="my-1"> 
+                            <Form.Control 
+                              as="select"
+                              value={qty}
+                              onChange={(e)=>setQty(e.target.value)}
+                            >
+                              {
+                                /*
+                                [...Array(product.countInStock).keys()].map((x)=>(
+                                  <option key={x+1} value={x+1}>
+                                    {x+1} 
+                                  </option> 
+                                ))
+                                */
+                                qtyDropdownOptions // alternate way to populate dropdown options, does the same thing as the code above 
+                              }
+                            </Form.Control> 
+                          </Col>
+                        </Row>
+                      </ListGroup.Item>
+                    )} 
+
                     <ListGroup.Item>
-                      <Button className={findButtonClassName()} disabled={checkIfAvailable()} type='button'>Add to Cart</Button>
+                      <Button 
+                        onClick={addToCartHandler}
+                        className={findButtonClassName()} 
+                        disabled={checkIfAvailable()} 
+                        type='button'
+                      >Add to Cart
+                      </Button>
                     </ListGroup.Item> 
                   </ListGroup>
                 </Card>
