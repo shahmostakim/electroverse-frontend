@@ -2,9 +2,9 @@
 import React, {useEffect} from 'react'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
-import { Row, Col, ListGroup, Image, Form, Button, Card, ListGroupItem } from 'react-bootstrap'
+import { Row, Col, ListGroup, Image, Form, Button, Card } from 'react-bootstrap'
 import Message from '../components/Message'
-import { addToCart } from '../actions/cartActions'
+import { addToCart, removeFromCart } from '../actions/cartActions'
 
 
 function CartScreen({match, location, history}) {
@@ -20,14 +20,14 @@ function CartScreen({match, location, history}) {
 
     // function for remove item button
     const removeFromCartHandler = (id)=>{
-        console.log('remove: ', id) 
+        dispatch(removeFromCart(id))  
     }
 
     const checkoutHandler = () => {
         history.push('/login?redirect=shipping')
     }
 
-    // calculate number of total cart items 
+    // calculate number of total cart items, not used now after refactoring 
     const NumberOfCartItems = (cartItems) => {
         let total = cartItems.reduce((acc, item)=>acc+item.qty, 0)
         if (total>0){
