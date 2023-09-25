@@ -20,9 +20,9 @@ export const listProducts = () => async(dispatch) => {
     }catch(error){
         dispatch({
             type: PRODUCT_LIST_FAIL,
-            payload: error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message   
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail // custom error message received from backend 
+                : error.message, // default error messsage    
         })
     }
 }
@@ -31,7 +31,6 @@ export const listProductDetails = (id) => async(dispatch) => {
     try{
         dispatch({type:PRODUCT_DETAILS_REQUEST})
         const {data} = await axios.get(`/api/products/${id}`)
-        //console.log(data) 
         dispatch({
             type: PRODUCT_DETAILS_SUCCESS,
             payload: data 
@@ -39,9 +38,9 @@ export const listProductDetails = (id) => async(dispatch) => {
     }catch(error){
         dispatch({
             type: PRODUCT_DETAILS_FAIL,
-            payload: error.response && error.response.data.message
-                ? error.response.data.message
-                : error.message   
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail // custom error message received from backend
+                : error.message // default error messsage  
         })
     }
 }
