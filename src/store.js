@@ -3,21 +3,27 @@ import thunk from 'redux-thunk'
 import { composeWithDevTools } from 'redux-devtools-extension'
 import { productListReducer, productDetailsReducer } from './reducers/productReducers'
 import { cartReducer } from './reducers/cartReducers'
+import { userLoginReducer } from './reducers/userReducers'
 
 const reducer = combineReducers({
     productList: productListReducer, 
     productDetails: productDetailsReducer, 
     cart: cartReducer,
+    userLogin: userLoginReducer, 
 })
 
-// if any cart items already exists then load it otherwise load an empty array
-const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : [] 
+// if any user info and cart items already exists then load it otherwise load an empty array
+const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
+const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null 
 
-// start application state with pulling cart items from local storage
+// start application state with pulling cart items and user info from local storage
 const initialState = {
     cart: {
-        cartItems: cartItemsFromStorage 
-    } 
+        cartItems: cartItemsFromStorage,
+    },
+    userLogin: {
+        userInfo: userInfoFromStorage, 
+    }
 } 
 
 const middleware = [thunk] 
