@@ -3,6 +3,7 @@ import { Navbar, Nav, Container, Row, NavDropdown } from 'react-bootstrap'
 import { LinkContainer } from 'react-router-bootstrap'
 import { useSelector, useDispatch } from 'react-redux'
 import {logout} from '../actions/userActions'
+import { useHistory } from 'react-router-dom'
 
 function Header() {
     // fetching cart items info from state 
@@ -11,9 +12,11 @@ function Header() {
     const {userInfo} = useSelector(state=>state.userLogin) 
 
     const dispatch = useDispatch() 
+    const history = useHistory() 
 
     const logoutHandler = () => {
         dispatch(logout())
+        history.push('/login')
     }
 
   return (
