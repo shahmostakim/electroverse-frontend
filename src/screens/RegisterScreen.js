@@ -43,7 +43,7 @@ function RegisterScreen({location, history}) {
     <FormContainer> 
       <h1>Sign In </h1>
         {message && (<Message variant='danger'>{message}</Message>)}
-        {error && (<Message variant='danger'>{error.message}</Message>)}
+        {error && (<Message variant='danger'>{error}</Message>)}
         {loading && (<Loader />)} 
         <Form onSubmit={submitHandler}>
 
