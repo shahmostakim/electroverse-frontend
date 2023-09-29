@@ -22,15 +22,17 @@ const reducer = combineReducers({
 
 // if any user info and cart items already exists then load it otherwise load an empty array
 const cartItemsFromStorage = localStorage.getItem('cartItems') ? JSON.parse(localStorage.getItem('cartItems')) : []
-const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null 
+const userInfoFromStorage = localStorage.getItem('userInfo') ? JSON.parse(localStorage.getItem('userInfo')) : null
+const shippingAddressFromStorage = localStorage.getItem('shippingAddress') ? JSON.parse(localStorage.getItem('shippingAddress')) : {}  
 
 // start application state with pulling cart items and user info from local storage
 const initialState = {
     cart: {
         cartItems: cartItemsFromStorage,
+        shippingAddress: shippingAddressFromStorage, 
     },
     userLogin: {
-        userInfo: userInfoFromStorage, 
+        userInfo: userInfoFromStorage,  
     }
 } 
 
