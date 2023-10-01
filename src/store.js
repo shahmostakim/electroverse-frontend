@@ -9,6 +9,7 @@ import {
     userDetailsReducer, 
     userUpdateProfileReducer 
 } from './reducers/userReducers'
+import { orderCreateReducer } from './reducers/orderReducers'
 
 const reducer = combineReducers({
     productList: productListReducer, 
@@ -18,6 +19,7 @@ const reducer = combineReducers({
     userRegister: userRegisterReducer,
     userDetails: userDetailsReducer, 
     userUpdateProfile: userUpdateProfileReducer, 
+    orderCreate: orderCreateReducer,  
 })
 
 // if any user info and cart items already exists then load it otherwise load an empty array
