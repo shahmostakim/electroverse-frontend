@@ -26,7 +26,7 @@ function OrderScreen({match}) {
         if(!order || order._id !== Number(orderId)){  
             dispatch(getOrderDetails(orderId)) 
         }
-    }, [order, orderId])  
+    }, [order, orderId, dispatch])    
 
     // if redux store is still loading, then show spinner, otherwise if error, show error message, 
     // otherwise start rendering the actual view "orderDetails"  
