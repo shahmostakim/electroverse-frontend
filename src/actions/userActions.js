@@ -16,6 +16,8 @@ import {
     USER_UPDATE_PROFILE_RESET,
  } from '../constants/userConstants'
 
+ import { ORDER_MYORDERS_RESET } from '../constants/orderConstants'
+
 import axios from 'axios'
 
 
@@ -58,6 +60,9 @@ export const logout = () => (dispatch) => {
     dispatch({
         type: USER_DETAILS_RESET
     })
+    dispatch({
+        type: ORDER_MYORDERS_RESET
+    }) 
 }
 
 export const register = (name, email, password) => async(dispatch) => {
