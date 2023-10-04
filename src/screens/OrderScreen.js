@@ -1,11 +1,13 @@
 
 import React, {useState, useEffect} from 'react'
-import { Button, Row, Col, ListGroup, Image, Card} from 'react-bootstrap'
+import { Button, Row, Col, ListGroup, Image, Card, ListGroupItem} from 'react-bootstrap'
 import { Link } from 'react-router-dom'
 import { useDispatch, useSelector } from 'react-redux'
+import { PayPalButton } from 'react-paypal-button-v2'
 import Message from '../components/Message' 
 import Loader from '../components/Loader'
-import { getOrderDetails } from '../actions/orderActions'
+import { getOrderDetails, payOrder } from '../actions/orderActions'
+import {ORDER_PAY_RESET} from '../constants/orderConstants'
 
 
 function OrderScreen({match}) {  
@@ -19,14 +21,45 @@ function OrderScreen({match}) {
     if(!loading && !error){
         order.itemsPrice = Number(order.orderItems.reduce((acc, item)=>acc+item.price*item.qty, 0)).toFixed(2)
     } 
-        
+
+    // state variable for tracking if paypal SDK is loaded
+    const [sdkReady, setSdkReady] = useState(false)
+
+    const orderPay = useSelector(state=>state.orderPay)
+    // new style of variable calling, to avoid conflict with orderDetails state variables
+    // deconstruct and load success as successPay and loading as loadingPay 
+    const {success:successPay, loading:loadingPay} = orderPay  
+
+    // depends on order payment status, triggered inside useEffect 
+    const addPayPalScript = ()=> {
+        const script = document.createElement('script')
+        script.type = 'text/javascript'
+        script.src = 'https://www.paypal.com/sdk/js?client-id=AcyNHJGgXtK8uKdSqlAW5cP9TdE1jDkdo4psnLCm7sGBzhbp7ORiCo2LwVqOZfY49WXWRXImibpzjYZB'
+        script.async = true 
+        script.onload = ()=> {
+            setSdkReady(true) 
+        }
+        document.body.appendChild(script) 
+    }
+    
     useEffect(()=>{
         // dispatches the action to load "orderDetails" data from server 
         // if the redux state already loaded the data then skip 
-        if(!order || order._id !== Number(orderId)){  
-            dispatch(getOrderDetails(orderId)) 
+        if(!order || successPay || order._id !== Number(orderId)){  
+            dispatch({type:ORDER_PAY_RESET}) // clears orderPay state before loading to remove any previous data 
+            dispatch(getOrderDetails(orderId))  
+        }else if(!order.isPaid){ // if order is not paid 
+            if(!window.paypal){ // and paypal SDK script is not loaded yet 
+                addPayPalScript() // load the script 
+            }else{
+                setSdkReady(true) // if SDK script is loaded, set redux status variable to true 
+            }
         }
-    }, [order, orderId, dispatch])    
+    }, [order, orderId, dispatch, successPay])    
+
+    const successPaymentHandler = (paymentResult)=>{
+        dispatch(payOrder(orderId, paymentResult))
+    }
 
     // if redux store is still loading, then show spinner, otherwise if error, show error message, 
     // otherwise start rendering the actual view "orderDetails"  
@@ -129,6 +162,20 @@ function OrderScreen({match}) {
                                     <Col>${order.totalPrice}</Col> 
                                 </Row>
                             </ListGroup.Item>
+
+                            {!order.isPaid && (
+                                <ListGroup.Item>
+                                    {loadingPay && <Loader />}
+                                    {!sdkReady ? (
+                                        <Loader />
+                                    ) : (
+                                        <PayPalButton
+                                            amount ={order.totalPrice}
+                                            onSuccess={successPaymentHandler}
+                                        />
+                                    )}
+                                </ListGroup.Item>
+                            )}
 
                         </ListGroup>
                     </Card>
