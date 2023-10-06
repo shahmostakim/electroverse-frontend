@@ -23,8 +23,8 @@ function UserListScreen({history}) {
 
     useEffect(()=>{
         if (userInfo && userInfo.isAdmin){
-            dispatch({type: USER_DELETE_RESET})
-            dispatch(listUsers())
+            dispatch({type: USER_DELETE_RESET}) // clears any previous error or success messages 
+            dispatch(listUsers()) 
         }else{
             history.push('/login')
         }
@@ -57,7 +57,7 @@ function UserListScreen({history}) {
                             <td>NAME</td>
                             <td>EMAIL</td>
                             <td>ADMIN</td>
-                            <td></td> 
+                            <td>ACTION</td> 
                         </tr>
                     </thead>
                     <tbody>
