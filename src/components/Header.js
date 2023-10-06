@@ -38,7 +38,7 @@ function Header() {
                         {userInfo?(
                             <NavDropdown title={userInfo.name} id='username'>
                                 <LinkContainer to='/profile'>
-                                    <NavDropdown.Item>Profile</NavDropdown.Item>
+                                    <NavDropdown.Item>My Profile</NavDropdown.Item>
                                 </LinkContainer>
                                 <NavDropdown.Item onClick={logoutHandler}>Logout</NavDropdown.Item>
                             </NavDropdown>
@@ -49,7 +49,7 @@ function Header() {
                         )}
 
                         {userInfo && userInfo.isAdmin && (
-                            <NavDropdown title='Admin' id='adminmenu'>
+                            <NavDropdown title='Manage' id='adminmenu'>
                                 <LinkContainer to='/admin/userlist'>
                                     <NavDropdown.Item>Users</NavDropdown.Item>
                                 </LinkContainer>

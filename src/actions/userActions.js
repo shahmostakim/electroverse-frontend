@@ -22,6 +22,12 @@ import {
     USER_LIST_SUCCESS,
     USER_LIST_FAIL,
     USER_LIST_RESET,
+
+    USER_DELETE_REQUEST,
+    USER_DELETE_SUCCESS,
+    USER_DELETE_FAIL,
+    USER_DELETE_RESET, 
+
  } from '../constants/userConstants'
 
  import { ORDER_MYORDERS_RESET } from '../constants/orderConstants'
@@ -65,6 +71,8 @@ export const logout = () => (dispatch) => {
     dispatch({ type: USER_LOGOUT }) 
     dispatch({ type: USER_DETAILS_RESET })
     dispatch({ type: USER_LIST_RESET }) 
+    dispatch({ type: USER_DELETE_RESET })
+
     dispatch({ type: ORDER_MYORDERS_RESET }) 
 }
 
@@ -121,7 +129,6 @@ export const getUserDetails = (id) => async(dispatch, getState) => {
             }
         }
 
-        //const {data} = await axios.get('http://localhost:8000/api/users/profile/', config) // invalid
         const {data} = await axios.get(`http://localhost:8000/api/users/${id}/`, config)
 
         dispatch({
@@ -155,7 +162,6 @@ export const updateUserProfile = (user) => async(dispatch, getState) => {
             }
         }
 
-        //const {data} = await axios.get('http://localhost:8000/api/users/profile/', config) // invalid
         const {data} = await axios.put(`http://localhost:8000/api/users/profile/update/`,user, config)
 
         dispatch({
@@ -197,7 +203,6 @@ export const listUsers = () => async(dispatch, getState) => {
             }
         }
 
-        //const {data} = await axios.get('http://localhost:8000/api/users/profile/', config) // invalid
         const {data} = await axios.get(`http://localhost:8000/api/users/`, config)
 
         dispatch({
@@ -213,4 +218,40 @@ export const listUsers = () => async(dispatch, getState) => {
                 : error.message, 
         })
     }
+} 
+
+
+export const deleteUser = (id) => async(dispatch, getState) => {
+    try{
+        dispatch({
+            type: USER_DELETE_REQUEST
+        })
+
+        // need to fetch access token from userInfo from redux store 
+        const {userLogin:{userInfo},} = getState()  
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`, // includes access token each time to get user details info
+            }
+        }
+
+        const {data} = await axios.delete(`http://localhost:8000/api/users/delete/${id}/`, config)
+
+        dispatch({
+            type: USER_DELETE_SUCCESS,
+            payload: data,  
+        })
+
+    }catch(error){
+        dispatch({
+            type: USER_DELETE_FAIL,
+            // if error message from server has a description then show it, 
+            // otherwise show the generic error status code 
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail 
+                : error.message, 
+        })
+    } 
 } 
