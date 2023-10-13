@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react'
+import React, {useEffect} from 'react' 
 import { Row, Col } from 'react-bootstrap'
 import Product from '../components/Product'
 import Loader from '../components/Loader'
@@ -17,8 +17,7 @@ function HomeScreen() {
 
   useEffect(()=>{
     dispatch(listProducts())  
-  //},[dispatch]) // original from tutorial 
-  },[]) // my way to keep the dependency empty. will change later if anything wrong 
+  },[dispatch]) 
 
 
   return (
