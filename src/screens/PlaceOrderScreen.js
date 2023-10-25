@@ -28,7 +28,8 @@ function PlaceOrderScreen({history}) {
     cart.taxPrice = Number(cart.itemsPrice*0.15).toFixed(2) 
 
     //cart.totalPrice = Number(cart.itemsPrice + cart.shippingPrice + cart.taxPrice) 
-    cart.totalPrice = Number(cart.itemsPrice)+Number(cart.shippingPrice)+Number(cart.taxPrice) 
+    cart.totalPrice = Number(cart.itemsPrice)+Number(cart.shippingPrice)+Number(cart.taxPrice)
+    cart.totalPrice = cart.totalPrice.toFixed(2)  
 
     if(!cart.paymentMethod){
         history.push('/payment') 
@@ -39,7 +40,7 @@ function PlaceOrderScreen({history}) {
             history.push(`/order/${order._id}`) 
             dispatch({type: ORDER_CREATE_RESET}) 
         }
-    }, [success, history]) 
+    }, [success, history, dispatch]) 
 
     const placeOrder = () => {
         //console.log('place order')
@@ -146,7 +147,7 @@ function PlaceOrderScreen({history}) {
                             <Button
                                 type='buttton'
                                 className = 'btn-block'
-                                disabled={cart.cartItems === 0}
+                                disabled={!cart.cartItems || cart.cartItems.length===0}
                                 onClick={placeOrder}
                             >Place Order
                             </Button>

@@ -40,10 +40,15 @@ function ProfileScreen({history}) {
                 dispatch({type:USER_UPDATE_PROFILE_RESET}) 
                 dispatch(getUserDetails('profile'))
                 dispatch(getMyOrders()) 
+            }else if(loadingMyOrders===false){
+                dispatch(getUserDetails('profile'))
+                dispatch(getMyOrders())
             }else{
                 setName(user.name)
                 setEmail(user.email) 
             }
+            //dispatch(getUserDetails('profile'))
+            //dispatch(getMyOrders())
         }
     }, [dispatch, history, userInfo, user, success])  
 
@@ -132,10 +137,11 @@ function ProfileScreen({history}) {
                     <thead>
                         <tr>
                             <th>ID</th>
-                            <th>Date</th>
+                            <th>Placed on</th>
                             <th>Total</th>
-                            <th>Paid</th>
-                            <th>Delivered</th>
+                            <th>Paid on</th>
+                            <th>Delivered on</th>
+                            <th></th> 
                         </tr>
                     </thead>
                     <tbody>
@@ -145,6 +151,9 @@ function ProfileScreen({history}) {
                                 <td>{order.createdAt.substring(0, 10)}</td>
                                 <td>${order.totalPrice}</td>
                                 <td>{order.isPaid ? order.paidAt.substring(0, 10) : (
+                                    <i className='fas fa-times' style={{color:'red'}}></i>
+                                )}</td>
+                                <td>{order.isDelivered ? order.deliveredAt.substring(0, 10) : (
                                     <i className='fas fa-times' style={{color:'red'}}></i>
                                 )}</td>
                                 <td>

@@ -46,8 +46,8 @@ export const cartReducer = (state={cartItems:[], shippingAddress:{}}, action)=>{
         case CART_CLEAR_ITEMS: 
             return {
                 //...state,
-                //cartItems: [],
-                //shippingAddress: []
+                cartItems: [],
+                shippingAddress: {}
             }
              
         default: 

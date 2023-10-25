@@ -111,7 +111,7 @@ function CartScreen({match, location, history}) {
                                 type='button'
                                 variant='info'
                                 /*disabled={NumberOfCartItems(cartItems)}*/
-                                disabled={!cartItems} /* after refactoring */
+                                disabled={!cartItems || cartItems.length < 1} /* after refactoring */
                                 onClick={checkoutHandler}
                             >
                                 Proceed To Checkout 
