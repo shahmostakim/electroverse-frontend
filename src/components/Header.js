@@ -31,7 +31,7 @@ function Header() {
                     <Nav className="ms-auto">
                         <LinkContainer to="/cart">
                             {/* Number of cart items are shown inside braces */}
-                            <Nav.Link><i className="fas fa-shopping-cart"></i> Cart{cartItems.length>0?('('+cartItems.length+')'):''}</Nav.Link>
+                            <Nav.Link><i className="fas fa-shopping-cart"></i> Cart{cartItems?('('+cartItems.length+')'):''}</Nav.Link> 
                         </LinkContainer> 
 
                         {/* Dynamic login/logout button based on user authentication status */}

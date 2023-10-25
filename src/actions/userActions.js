@@ -31,6 +31,7 @@ import {
  } from '../constants/userConstants'
 
  import { ORDER_MYORDERS_RESET } from '../constants/orderConstants'
+ import { CART_CLEAR_ITEMS } from '../constants/cartConstants' 
 
 import axios from 'axios'
 
@@ -68,12 +69,17 @@ export const login = (email, password) => async(dispatch) => {
 
 export const logout = () => (dispatch) => {
     localStorage.removeItem('userInfo')
+    localStorage.removeItem('cartItems')
+    localStorage.removeItem('paymentMethod')
+    localStorage.removeItem('shippingAddress') 
+
     dispatch({ type: USER_LOGOUT }) 
     dispatch({ type: USER_DETAILS_RESET })
     dispatch({ type: USER_LIST_RESET }) 
-    dispatch({ type: USER_DELETE_RESET })
+    dispatch({ type: USER_DELETE_RESET }) 
 
     dispatch({ type: ORDER_MYORDERS_RESET }) 
+    dispatch({ type: CART_CLEAR_ITEMS })
 }
 
 export const register = (name, email, password) => async(dispatch) => {

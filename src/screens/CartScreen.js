@@ -48,7 +48,7 @@ function CartScreen({match, location, history}) {
     <Row>
         <Col md={8}>
             <h1>Shopping Cart</h1>
-            { cartItems.length === 0 ? (
+            { !cartItems ? (
                 <Message variant='info'>
                     Your Cart is empty <Link to='/'>Go Back</Link>
                 </Message>
@@ -95,27 +95,32 @@ function CartScreen({match, location, history}) {
             )}
         </Col>
         <Col md={4}>
-            <Card>
-                <ListGroup variant='flush'>
+            { !cartItems ? (
+                <div></div>
+            ):(
+                <Card>
+                    <ListGroup variant='flush'>
+                        <ListGroup.Item>
+                            <h2>Subtotal ({cartItems.reduce((acc, item)=>acc+item.qty, 0)}) items</h2>
+                            ${cartItems.reduce((acc, item)=>acc+item.qty*item.price, 0).toFixed(2)}
+                        </ListGroup.Item>
+                    </ListGroup>
                     <ListGroup.Item>
-                        <h2>Subtotal ({cartItems.reduce((acc, item)=>acc+item.qty, 0)}) items</h2>
-                        ${cartItems.reduce((acc, item)=>acc+item.qty*item.price, 0).toFixed(2)}
+                        <Row className='p-2 mx-2'>
+                            <Button
+                                type='button'
+                                variant='info'
+                                /*disabled={NumberOfCartItems(cartItems)}*/
+                                disabled={!cartItems} /* after refactoring */
+                                onClick={checkoutHandler}
+                            >
+                                Proceed To Checkout 
+                            </Button>
+                        </Row>
                     </ListGroup.Item>
-                </ListGroup>
-                <ListGroup.Item>
-                    <Row className='p-2 mx-2'>
-                        <Button
-                            type='button'
-                            variant='info'
-                            /*disabled={NumberOfCartItems(cartItems)}*/
-                            disabled={cartItems.length===0} /* after refactoring */
-                            onClick={checkoutHandler}
-                        >
-                            Proceed To Checkout 
-                        </Button>
-                    </Row>
-                </ListGroup.Item>
-            </Card>
+                </Card>
+            )}
+            
         </Col>
     </Row>
   )
