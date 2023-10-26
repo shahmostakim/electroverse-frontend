@@ -11,6 +11,7 @@ import {ORDER_PAY_RESET} from '../constants/orderConstants'
 
 
 function OrderScreen({match}) {  
+
     const orderId = match.params.id 
     const dispatch = useDispatch() 
 
@@ -43,6 +44,12 @@ function OrderScreen({match}) {
     }
     
     useEffect(()=>{
+        if(orderId){
+            dispatch(getOrderDetails(orderId))
+        }
+    }, [dispatch]); 
+
+    useEffect(()=>{
         // dispatches the action to load "orderDetails" data from server 
         // if the redux state already loaded the data then skip 
         if(!order || successPay || order._id !== Number(orderId)){  
@@ -55,8 +62,9 @@ function OrderScreen({match}) {
                 setSdkReady(true) // if SDK script is loaded, set redux status variable to true 
             }
         }
-    }, [order, orderId, dispatch, successPay])    
-
+    }, [order, orderId, successPay, loading])  
+    
+    
     const successPaymentHandler = (paymentResult)=>{
         dispatch(payOrder(orderId, paymentResult))
     }
@@ -85,7 +93,7 @@ function OrderScreen({match}) {
                                 {order.shippingAddress.country} 
                             </p>
                             {order.isDelivered ? (
-                                <Message variant="success">Delivered on {order.deliveredAt}</Message>
+                                <Message variant="success">Delivered on {order.deliveredAt.substring(0, 10)}</Message> 
                             ) : (
                                 <Message variant="warning">Delivery in progress</Message>
                             )}
