@@ -36,7 +36,8 @@ function ProfileScreen({history}) {
         if(!userInfo){  
             history.push('/login') // if user not logged in, send him to login page 
         }else{
-            if(!user || !user.name || success){
+            // if state's userInfo.id is different than logged In user ID then fetch userDetals of logged in user 
+            if(!user || !user.name || success || userInfo._id!==user._id){ 
                 dispatch({type:USER_UPDATE_PROFILE_RESET}) 
                 dispatch(getUserDetails('profile'))
                 dispatch(getMyOrders()) 
@@ -45,10 +46,8 @@ function ProfileScreen({history}) {
                 dispatch(getMyOrders())
             }else{
                 setName(user.name)
-                setEmail(user.email) 
+                setEmail(user.email)  
             }
-            //dispatch(getUserDetails('profile'))
-            //dispatch(getMyOrders())
         }
     }, [dispatch, history, userInfo, user, success])  
 
