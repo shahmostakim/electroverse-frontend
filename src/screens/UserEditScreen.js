@@ -54,6 +54,7 @@ function EditUserScreen({match, history}) {
                         placeholder='Enter name'
                         value={name}
                         onChange={(e)=>setName(e.target.value)} 
+                        disabled
                     ></Form.Control>
                 </Form.Group>
 
@@ -64,6 +65,7 @@ function EditUserScreen({match, history}) {
                         placeholder='Enter email'
                         value={email}
                         onChange={(e)=>setEmail(e.target.value)} 
+                        disabled
                     ></Form.Control>
                 </Form.Group>
 
