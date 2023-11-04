@@ -28,6 +28,11 @@ import {
     USER_DELETE_FAIL,
     USER_DELETE_RESET, 
 
+    USER_UPDATE_REQUEST,
+    USER_UPDATE_SUCCESS,
+    USER_UPDATE_FAIL,
+    USER_UPDATE_RESET,  
+
  } from '../constants/userConstants'
 
  import { ORDER_MYORDERS_RESET } from '../constants/orderConstants'
@@ -234,7 +239,9 @@ export const deleteUser = (id) => async(dispatch, getState) => {
         })
 
         // need to fetch access token from userInfo from redux store 
-        const {userLogin:{userInfo},} = getState()  
+        const {
+            userLogin: {userInfo},
+        } = getState()  
 
         const config = {
             headers: {
@@ -253,6 +260,47 @@ export const deleteUser = (id) => async(dispatch, getState) => {
     }catch(error){
         dispatch({
             type: USER_DELETE_FAIL,
+            // if error message from server has a description then show it, 
+            // otherwise show the generic error status code 
+            payload: error.response && error.response.data.detail
+                ? error.response.data.detail 
+                : error.message, 
+        })
+    } 
+} 
+
+export const updateUser = (user) => async(dispatch, getState) => {
+    try{
+        dispatch({
+            type: USER_UPDATE_REQUEST
+        })
+
+        // need to fetch access token from userInfo from redux store 
+        const {
+            userLogin: {userInfo},
+        } = getState()  
+
+        const config = {
+            headers: {
+                'Content-type': 'application/json',
+                Authorization: `Bearer ${userInfo.token}`, // includes access token each time to get user details info
+            }
+        }
+
+        const {data} = await axios.put(`/api/users/update/${user._id}/`, user, config)
+
+        dispatch({
+            type: USER_UPDATE_SUCCESS,  
+        })
+
+        dispatch({
+            type: USER_DETAILS_SUCCESS,  
+            payload: data 
+        })
+
+    }catch(error){
+        dispatch({
+            type: USER_UPDATE_FAIL,
             // if error message from server has a description then show it, 
             // otherwise show the generic error status code 
             payload: error.response && error.response.data.detail
