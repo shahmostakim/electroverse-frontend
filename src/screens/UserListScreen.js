@@ -29,7 +29,7 @@ function UserListScreen({history}) {
             history.push('/login')
         }
          
-    },[dispatch, history, successDeleteUser]) 
+    },[dispatch, history, successDeleteUser, userInfo]) 
 
     const deleteUserHandler = (id, name) => { 
         if(window.confirm('Are you sure to delete user -> ' +name+'?')){
