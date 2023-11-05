@@ -52,6 +52,11 @@ function EditUserScreen({match, history}) {
 
         <FormContainer> 
         <h1>Edit User </h1> 
+        {/* seperate loading spinner and error message component for updating 'userUpdate' slice of the state */}
+        {loadingUpdate && <Loader/>}
+        {errorUpdate && <Message variant='danger'>{errorUpdate}</Message>}  
+
+        {/* check for error in 'userDetails' slice and then render the form component */}
         {loading ? <Loader/> : error ? <Message variant='danger'>{error}</Message> : (
             
             <Form onSubmit={submitHandler}>
