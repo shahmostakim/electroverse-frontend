@@ -1,4 +1,4 @@
-# Project: Electroverse Inc
+# Project: Electroverse Frontend
 
 This is one of the portfolio projects listed in my [website](https://shahmostakim.com).
 
@@ -17,9 +17,9 @@ This application equips with standard features including:
  - admin dashboard 
  - product search and pagination and more
  
- The backend API of this project is being developed with Django REST framework implementing JWT based authentication. 
+ The backend API of this project is developed with Django REST framework implementing JWT based authentication. 
  
- The application is under development and full version will be deployed online for live demonstration upon completion of all features. 
+ The application is under continuous development 
 
 
 
