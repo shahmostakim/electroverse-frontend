@@ -5,7 +5,7 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listProducts } from '../actions/productActions'
+import { listProducts, deleteProduct } from '../actions/productActions'
 
 
 function ProductListScreen({history, match}) {
@@ -14,6 +14,9 @@ function ProductListScreen({history, match}) {
 
     const productList = useSelector(state=>state.productList)
     const {loading, error, products} = productList
+
+    const productDelete = useSelector(state=>state.productDelete)
+    const {loading:loadingDelete, error:errorDelete, success:successDelete} = productDelete
 
     const errorProductDelete = false // will be changed later
 
@@ -28,12 +31,13 @@ function ProductListScreen({history, match}) {
             history.push('/login')
         }
          
-    },[dispatch, history, userInfo]) 
+    },[dispatch, history, userInfo, successDelete]) 
 
     const deleteHandler = (id) => { 
         if(window.confirm('Are you sure to delete this product?')){
             // delete products 
-            console.log('Delete handler clicked')
+            //console.log('Delete handler clicked')
+            dispatch(deleteProduct(id)) 
         }
     }
 
@@ -55,6 +59,10 @@ function ProductListScreen({history, match}) {
                 </Button>
             </Col>
         </Row> 
+
+        {/* loader and error message for product delete */}
+        {loadingDelete && <Loader/>}
+        {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
 
         {/* if loading then show spinner, or if error then show error message, otherwise show the main content below */}
         {loading ? (<Loader />) 
