@@ -5,7 +5,8 @@ import { Table, Button, Row, Col } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import Loader from '../components/Loader'
 import Message from '../components/Message'
-import { listProducts, deleteProduct } from '../actions/productActions'
+import { listProducts, deleteProduct, createProduct } from '../actions/productActions'
+import { PRODUCT_CREATE_RESET } from '../constants/productConstants'
 
 
 function ProductListScreen({history, match}) {
@@ -18,20 +19,26 @@ function ProductListScreen({history, match}) {
     const productDelete = useSelector(state=>state.productDelete)
     const {loading:loadingDelete, error:errorDelete, success:successDelete} = productDelete
 
+    const productCreate = useSelector(state=>state.productCreate)
+    const {loading:loadingCreate, error:errorCreate, success:successCreate, product:createdProduct} = productCreate
+
     const errorProductDelete = false // will be changed later
 
     const userLogin = useSelector(state=>state.userLogin)
     const {userInfo} = userLogin
 
     useEffect(()=>{
-        if (userInfo && userInfo.isAdmin){
-            //dispatch({type: USER_DELETE_RESET}) // clears any previous error or success messages 
-            dispatch(listProducts()) 
+        dispatch({type:PRODUCT_CREATE_RESET}) 
+        if (!userInfo.isAdmin){
+            history.push('/login') 
+        }
+        if(successCreate){
+            history.push(`/admin/product/${createdProduct._id}/edit`) 
         }else{
-            history.push('/login')
+            dispatch(listProducts()) 
         }
          
-    },[dispatch, history, userInfo, successDelete]) 
+    },[dispatch, history, userInfo, successDelete, successCreate, createdProduct])   
 
     const deleteHandler = (id) => { 
         if(window.confirm('Are you sure to delete this product?')){
@@ -41,9 +48,8 @@ function ProductListScreen({history, match}) {
         }
     }
 
-    const createProductHandler = (product) =>{
-        // create product 
-        console.log('Add product clicked') 
+    const createProductHandler = () =>{
+        dispatch(createProduct())   
     }
 
 
@@ -63,6 +69,10 @@ function ProductListScreen({history, match}) {
         {/* loader and error message for product delete */}
         {loadingDelete && <Loader/>}
         {errorDelete && <Message variant='danger'>{errorDelete}</Message>}
+
+        {/* loader and error message for product create */}
+        {loadingCreate && <Loader/>}
+        {errorCreate && <Message variant='danger'>{errorCreate}</Message>} 
 
         {/* if loading then show spinner, or if error then show error message, otherwise show the main content below */}
         {loading ? (<Loader />) 
